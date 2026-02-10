@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{82852981-BB42-41DA-B545-A42CB395CF7D}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>WpfCQRSDemoApplication.Shared</RootNamespace>
+        <AssemblyName>WpfCQRSDemoApplication.Shared</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Xml"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Contracts\Commands\Customers\CreateCustomerCommand.cs" />
+        <Compile Include="Contracts\Commands\Customers\DeleteCustomerCommand.cs" />
+        <Compile Include="Contracts\Commands\Customers\UpdateCustomerCommand.cs" />
+        <Compile Include="Contracts\Commands\ICommand.cs" />
+        <Compile Include="Contracts\Commands\ICommandHandler.cs" />
+        <Compile Include="Contracts\Commands\IQuery.cs" />
+        <Compile Include="Contracts\Commands\IQueryHandler.cs" />
+        <Compile Include="Contracts\Commands\IRemoteCommand.cs" />
+        <Compile Include="Contracts\Commands\Orders\CreateOrderCommand.cs" />
+        <Compile Include="Contracts\Commands\Orders\UpdateOrderCommand.cs" />
+        <Compile Include="Contracts\Protocol\RemoteException.cs" />
+        <Compile Include="Contracts\Protocol\RemoteRequest.cs" />
+        <Compile Include="Contracts\Protocol\RemoteResponse.cs" />
+        <Compile Include="Contracts\Queries\GetAllCustomersQuery.cs" />
+        <Compile Include="Contracts\Queries\GetCustomerByIdQuery.cs" />
+        <Compile Include="DTOs\Customers\CustomerDto.cs" />
+        <Compile Include="DTOs\Customers\CustomerListDto.cs" />
+        <Compile Include="DTOs\Orders\OrderDto.cs" />
+        <Compile Include="DTOs\Orders\OrderListDto.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Contracts\Queries\Customers\" />
+      <Folder Include="Contracts\Queries\Orders\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+    
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>
