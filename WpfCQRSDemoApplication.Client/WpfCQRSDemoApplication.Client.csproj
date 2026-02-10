@@ -106,5 +106,9 @@
         <Name>WpfCQRSDemoApplication.Shared</Name>
       </ProjectReference>
     </ItemGroup>
+    
+    <ItemGroup>
+      <Content Include="ProjectStructure.md" />
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
