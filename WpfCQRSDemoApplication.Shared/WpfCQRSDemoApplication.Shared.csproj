@@ -53,11 +53,16 @@
         <Compile Include="Contracts\Protocol\RemoteRequest.cs" />
         <Compile Include="Contracts\Protocol\RemoteResponse.cs" />
         <Compile Include="Contracts\Queries\GetAllCustomersQuery.cs" />
+        <Compile Include="Contracts\Queries\GetBoardQuery.cs" />
         <Compile Include="Contracts\Queries\GetCustomerByIdQuery.cs" />
+        <Compile Include="Contracts\Queries\GetSquareQuery.cs" />
+        <Compile Include="Contracts\Commands\TicTacToe\PutSquareCommand.cs" />
+        <Compile Include="Contracts\Commands\TicTacToe\ResetBoardCommand.cs" />
         <Compile Include="DTOs\Customers\CustomerDto.cs" />
         <Compile Include="DTOs\Customers\CustomerListDto.cs" />
         <Compile Include="DTOs\Orders\OrderDto.cs" />
         <Compile Include="DTOs\Orders\OrderListDto.cs" />
+        <Compile Include="DTOs\TicTacToe\BoardStatusDto.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>

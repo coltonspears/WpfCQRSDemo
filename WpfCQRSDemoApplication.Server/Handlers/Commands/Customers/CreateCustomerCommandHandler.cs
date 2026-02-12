@@ -1,6 +1,7 @@
-﻿using System.Data;
+using System.Data;
 using Dapper;
 using WpfCQRSDemoApplication.Shared.Contracts.Commands;
+using AppLogger = WpfCQRSDemoApplication.Server.Infrastructure.Logging.ILogger;
 
 namespace WpfCQRSDemoApplication.Server.Handlers.Commands.Customers;
 
@@ -8,9 +9,9 @@ public class CreateCustomerCommandHandler
     : ICommandHandler<CreateCustomerCommand, int>
 {
     private readonly IDbConnection _dbConnection;
-    private readonly ILogger _logger;
+    private readonly AppLogger _logger;
 
-    public CreateCustomerCommandHandler(IDbConnection dbConnection, ILogger logger)
+    public CreateCustomerCommandHandler(IDbConnection dbConnection, AppLogger logger)
     {
         _dbConnection = dbConnection;
         _logger = logger;

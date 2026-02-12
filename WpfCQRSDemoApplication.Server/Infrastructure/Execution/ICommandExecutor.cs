@@ -1,4 +1,6 @@
-﻿namespace WpfCQRSDemoApplication.Server.Infrastructure.Execution;
+using WpfCQRSDemoApplication.Shared.Contracts.Protocol;
+
+namespace WpfCQRSDemoApplication.Server.Infrastructure.Execution;
 
 public interface ICommandExecutor
 {

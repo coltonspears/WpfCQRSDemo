@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WpfCQRSDemoApplication.Server.Infrastructure.Execution;
 using WpfCQRSDemoApplication.Shared.Contracts.Protocol;
+using AppLogger = WpfCQRSDemoApplication.Server.Infrastructure.Logging.ILogger;
 
 namespace WpfCQRSDemoApplication.Server.Controllers;
 
@@ -10,9 +11,9 @@ namespace WpfCQRSDemoApplication.Server.Controllers;
 public class CommandController : ControllerBase
 {
     private readonly ICommandExecutor _commandExecutor;
-    private readonly ILogger _logger;
+    private readonly AppLogger _logger;
 
-    public CommandController(ICommandExecutor commandExecutor, ILogger logger)
+    public CommandController(ICommandExecutor commandExecutor, AppLogger logger)
     {
         _commandExecutor = commandExecutor;
         _logger = logger;

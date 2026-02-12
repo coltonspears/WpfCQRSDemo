@@ -1,16 +1,17 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using WpfCQRSDemoApplication.Shared.Contracts.Commands;
 using WpfCQRSDemoApplication.Shared.Contracts.Protocol;
+using AppLogger = WpfCQRSDemoApplication.Server.Infrastructure.Logging.ILogger;
 
 namespace WpfCQRSDemoApplication.Server.Infrastructure.Execution;
 
 public class CommandExecutor : ICommandExecutor
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly ILogger _logger;
+    private readonly AppLogger _logger;
     private readonly JsonSerializerSettings _jsonSettings;
 
-    public CommandExecutor(IServiceProvider serviceProvider, ILogger logger)
+    public CommandExecutor(IServiceProvider serviceProvider, AppLogger logger)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;

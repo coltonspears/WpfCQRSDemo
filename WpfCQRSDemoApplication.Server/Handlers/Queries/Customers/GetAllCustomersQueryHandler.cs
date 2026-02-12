@@ -1,8 +1,9 @@
-﻿using System.Data;
+using System.Data;
 using Dapper;
 using WpfCQRSDemoApplication.Shared.Contracts.Commands;
 using WpfCQRSDemoApplication.Shared.Contracts.Queries;
 using WpfCQRSDemoApplication.Shared.DTOs.Customers;
+using AppLogger = WpfCQRSDemoApplication.Server.Infrastructure.Logging.ILogger;
 
 namespace WpfCQRSDemoApplication.Server.Handlers.Queries.Customers;
 
@@ -10,9 +11,9 @@ public class GetAllCustomersQueryHandler
     : IQueryHandler<GetAllCustomersQuery, List<CustomerListDto>>
 {
     private readonly IDbConnection _dbConnection;
-    private readonly ILogger _logger;
+    private readonly AppLogger _logger;
 
-    public GetAllCustomersQueryHandler(IDbConnection dbConnection, ILogger logger)
+    public GetAllCustomersQueryHandler(IDbConnection dbConnection, AppLogger logger)
     {
         _dbConnection = dbConnection;
         _logger = logger;
