@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace WpfCQRSDemo.Helpers
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand : IRaiseCanExecuteChanged
     {
         private readonly Action _execute;
         private readonly Func<bool> _canExecute;
@@ -36,7 +36,7 @@ namespace WpfCQRSDemo.Helpers
         }
     }
 
-    public class RelayCommand<T> : ICommand
+    public class RelayCommand<T> : IRaiseCanExecuteChanged
     {
         private readonly Action<T> _execute;
         private readonly Predicate<T> _canExecute;

@@ -12,9 +12,9 @@
         <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     </ItemGroup>
 
-
     <ItemGroup>
       <ProjectReference Include="..\WpfCQRSDemoApplication.Shared\WpfCQRSDemoApplication.Shared.csproj" />
+      <ProjectReference Include="..\WpfCQRSDemoApplication.ServiceDefaults\WpfCQRSDemoApplication.ServiceDefaults.csproj" />
     </ItemGroup>
 
 </Project>

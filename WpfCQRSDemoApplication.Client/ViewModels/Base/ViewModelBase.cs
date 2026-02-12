@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using WpfCQRSDemo.Infrastructure.CQRS;
 using WpfCQRSDemo.Infrastructure.Services;
+using WpfCQRSDemoApplication.Client.Infrastructure.SignalR;
 using WpfCQRSDemoApplication.Shared.Contracts.Commands;
 
 namespace WpfCQRSDemo.ViewModels.Base
@@ -16,9 +17,7 @@ namespace WpfCQRSDemo.ViewModels.Base
         protected IDialogService DialogService { get; }
         protected INavigationService NavigationService { get; }
         protected ICommandQueryDispatcher Dispatcher { get; }
-
-        private bool _isBusy;
-        private string _busyMessage;
+        protected ISignalRService SignalR { get; }
 
         protected ViewModelBase(IInfrastructureServices infrastructure)
         {
@@ -28,18 +27,19 @@ namespace WpfCQRSDemo.ViewModels.Base
             DialogService = infrastructure.DialogService;
             NavigationService = infrastructure.NavigationService;
             Dispatcher = infrastructure.Dispatcher;
+            SignalR = infrastructure.SignalR;
         }
 
         public bool IsBusy
         {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
+            get => field;
+            set => SetProperty(ref field, value);
         }
 
         public string BusyMessage
         {
-            get { return _busyMessage; }
-            set { SetProperty(ref _busyMessage, value); }
+            get => field;
+            set => SetProperty(ref field, value);
         }
 
         protected async Task ExecuteCommandAsync(ICommand command, string errorMessage = null)

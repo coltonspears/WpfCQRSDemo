@@ -1,4 +1,5 @@
 using WpfCQRSDemo.Infrastructure.CQRS;
+using WpfCQRSDemoApplication.Client.Infrastructure.SignalR;
 
 namespace WpfCQRSDemo.Infrastructure.Services
 {
@@ -9,5 +10,6 @@ namespace WpfCQRSDemo.Infrastructure.Services
         IDialogService DialogService { get; }
         INavigationService NavigationService { get; }
         ICommandQueryDispatcher Dispatcher { get; }
+        ISignalRService SignalR { get; }
     }
 }

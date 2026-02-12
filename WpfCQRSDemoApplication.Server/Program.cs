@@ -1,17 +1,17 @@
+using Microsoft.Extensions.Hosting;
 using WpfCQRSDemoApplication.Server;
 
-public class Program
-{
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args).Build().Run();
-    }
+var builder = WebApplication.CreateBuilder(args);
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-                webBuilder.UseUrls("http://localhost:5000");
-            });
-}
+builder.AddServiceDefaults();
+
+var startup = new Startup(builder.Configuration);
+startup.ConfigureServices(builder.Services);
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+startup.Configure(app, app.Environment);
+
+app.Run();

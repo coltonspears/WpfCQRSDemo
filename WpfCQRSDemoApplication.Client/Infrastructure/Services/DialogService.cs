@@ -11,6 +11,12 @@ namespace WpfCQRSDemo.Infrastructure.Services
             return Task.FromResult(true);
         }
 
+        public Task ShowErrorAsync(string title, string message)
+        {
+            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+            return Task.FromResult(true);
+        }
+
         public Task<bool> ShowConfirmationAsync(string message, string title = "Confirm")
         {
             var result = MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Question);

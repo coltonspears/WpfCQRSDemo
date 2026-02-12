@@ -11,6 +11,7 @@
         <RootNamespace>WpfCQRSDemoApplication.Shared</RootNamespace>
         <AssemblyName>WpfCQRSDemoApplication.Shared</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +50,9 @@
         <Compile Include="Contracts\Commands\IRemoteCommand.cs" />
         <Compile Include="Contracts\Commands\Orders\CreateOrderCommand.cs" />
         <Compile Include="Contracts\Commands\Orders\UpdateOrderCommand.cs" />
+        <Compile Include="Contracts\GameContracts.cs" />
+        <Compile Include="Contracts\LeaderboardContracts.cs" />
+        <Compile Include="Contracts\LobbyContracts.cs" />
         <Compile Include="Contracts\Protocol\RemoteException.cs" />
         <Compile Include="Contracts\Protocol\RemoteRequest.cs" />
         <Compile Include="Contracts\Protocol\RemoteResponse.cs" />
@@ -63,6 +67,7 @@
         <Compile Include="DTOs\Orders\OrderDto.cs" />
         <Compile Include="DTOs\Orders\OrderListDto.cs" />
         <Compile Include="DTOs\TicTacToe\BoardStatusDto.cs" />
+        <Compile Include="Infrastructure\SignalR\ILiveUpdateClient.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>

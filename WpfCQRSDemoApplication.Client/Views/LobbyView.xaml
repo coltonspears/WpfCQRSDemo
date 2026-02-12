@@ -1,0 +1,243 @@
+<UserControl x:Class="WpfCQRSDemo.Views.LobbyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid Margin="20">
+        <!-- Not in Lobby View -->
+        <Grid Visibility="{Binding IsNotInLobby, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <TextBlock Text="Tic Tac Toe Lobby" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <!-- Player Name Input -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
+                <TextBlock Text="Your Name:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox Text="{Binding PlayerName, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="200" 
+                         VerticalContentAlignment="Center"
+                         Padding="5"/>
+            </StackPanel>
+
+            <!-- Create Lobby Section -->
+            <GroupBox Grid.Row="2" Header="Create New Lobby" Margin="0,0,0,20" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Lobby Name:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding LobbyName, UpdateSourceTrigger=PropertyChanged}" 
+                             Width="200" 
+                             VerticalContentAlignment="Center"
+                             Padding="5"
+                             Margin="0,0,10,0"/>
+                    <Button Content="Create Lobby" 
+                            Command="{Binding CreateLobbyCommand}" 
+                            Padding="15,5"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Available Lobbies -->
+            <GroupBox Grid.Row="3" Header="Available Lobbies" Padding="10">
+                <Grid>
+                    <ListView ItemsSource="{Binding AvailableLobbies}" x:Name="LobbyListView">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Lobby Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                                <GridViewColumn Header="Players" DisplayMemberBinding="{Binding PlayerCount}" Width="80"/>
+                                <GridViewColumn Header="Status" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="Waiting"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Status}" Value="InGame">
+                                                                <Setter Property="Text" Value="In Game"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Closed">
+                                                                <Setter Property="Text" Value="Closed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Join" 
+                                                    Command="{Binding DataContext.JoinLobbyCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Padding="10,3">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Status}" Value="InGame">
+                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding PlayerCount}" Value="2">
+                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    
+                    <!-- Empty state -->
+                    <TextBlock Text="No lobbies available. Create one to start playing!"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="Gray"
+                               FontStyle="Italic">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AvailableLobbies.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <!-- In Lobby View -->
+        <Grid Visibility="{Binding IsInLobby, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Lobby Header -->
+            <StackPanel Margin="0,0,0,20">
+                <TextBlock Text="{Binding CurrentLobbyName}" FontSize="24" FontWeight="Bold"/>
+                <TextBlock Text="Waiting for players..." Foreground="Gray" FontStyle="Italic">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanStartGame}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Text="Ready to start!" Foreground="Green" FontWeight="Bold">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanStartGame}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Your Info -->
+            <Border Grid.Row="1" Background="#F0F0F0" Padding="10" Margin="0,0,0,20" CornerRadius="5">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="You: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding PlayerName}" Margin="0,0,20,0"/>
+                    <TextBlock Text="(Host)" Foreground="Blue" FontWeight="Bold">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsHost}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- Players List -->
+            <GroupBox Grid.Row="2" Header="Players" Padding="10">
+                <ListView ItemsSource="{Binding Players}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            <GridViewColumn Header="Status" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="Not Ready"/>
+                                                    <Setter Property="Foreground" Value="Orange"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsReady}" Value="True">
+                                                            <Setter Property="Text" Value="Ready"/>
+                                                            <Setter Property="Foreground" Value="Green"/>
+                                                            <Setter Property="FontWeight" Value="Bold"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="Ready" Command="{Binding ReadyCommand}" Margin="0,0,10,0" Padding="20,8"/>
+                <Button Content="Start Game" 
+                        Command="{Binding StartGameCommand}" 
+                        Margin="0,0,10,0" 
+                        Padding="20,8"
+                        Background="#4CAF50"
+                        Foreground="White">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsHost}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Leave Lobby" 
+                        Command="{Binding LeaveLobbyCommand}" 
+                        Padding="20,8"
+                        Background="#F44336"
+                        Foreground="White"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

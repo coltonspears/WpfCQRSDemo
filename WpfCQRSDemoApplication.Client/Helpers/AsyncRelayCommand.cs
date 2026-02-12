@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace WpfCQRSDemo.Helpers
 {
-    public class AsyncRelayCommand : ICommand
+    public class AsyncRelayCommand : IRaiseCanExecuteChanged
     {
         private readonly Func<System.Threading.Tasks.Task> _execute;
         private readonly Func<bool> _canExecute;
@@ -48,7 +48,7 @@ namespace WpfCQRSDemo.Helpers
         }
     }
 
-    public class AsyncRelayCommand<T> : ICommand
+    public class AsyncRelayCommand<T> : IRaiseCanExecuteChanged
     {
         private readonly Func<T, System.Threading.Tasks.Task> _execute;
         private readonly Predicate<T> _canExecute;
